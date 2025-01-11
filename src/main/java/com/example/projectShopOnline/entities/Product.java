@@ -19,9 +19,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String ProductName;
-    private String Brand;
-    private String Model;
+    private String name;
+    private String brand;
+    private String model;
     private String description;
     private Double price;
     private int quantity;

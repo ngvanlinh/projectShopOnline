@@ -14,9 +14,9 @@ public class Customer {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String FullName;
-    private String Email;
-    private String Address ;
+    private String fullName;
+    private String email;
+    private String address ;
 
     @Column(name = "phone_number")
     private int phoneNumber;

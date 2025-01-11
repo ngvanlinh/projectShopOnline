@@ -51,7 +51,7 @@ public class PaymentsController {
     @Operation(summary = "Update Payments", description = "Send a request via this API to edit payments information")
     @PutMapping("/{id}")
     public ResponseEntity<Payments> updatePayments(@PathVariable int id, @RequestBody Payments payments) {
-        payments.setPaymentID(id);
+        payments.setId(id);
         Payments orderUpdate = paymentsService.update(payments);
         if (orderUpdate == null) {
             return ResponseEntity.notFound().build();

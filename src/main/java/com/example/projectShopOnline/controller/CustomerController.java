@@ -2,6 +2,7 @@ package com.example.projectShopOnline.controller;
 
 
 import com.example.projectShopOnline.entities.Customer;
+import com.example.projectShopOnline.entities.dto.respository.CustomerResDTO;
 import com.example.projectShopOnline.services.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class CustomerController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customers = customerService.findAll();
+    public ResponseEntity<List<CustomerResDTO>> getAllCustomers() {
+        List<CustomerResDTO> customers = customerService.getAllCustomer();
         if (customers.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -36,22 +37,22 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        Customer saveCustomer = customerService.saveOrUpdate(customer);
+    public ResponseEntity<CustomerResDTO> createCustomer(@RequestBody CustomerResDTO customerResDTO) {
+        CustomerResDTO saveCustomer = customerService.saveOrUpdate(customerResDTO);
         if (saveCustomer == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(saveCustomer);
+        return ResponseEntity.ok(customerService.saveOrUpdate(customerResDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
-        customer.setId(id);
-        Customer saveCustomer = customerService.saveOrUpdate(customer);
+    public ResponseEntity<CustomerResDTO> updateCustomer(@PathVariable int id, @RequestBody CustomerResDTO customerResDTO) {
+        customerResDTO.setId(id);
+        CustomerResDTO saveCustomer = customerService.saveOrUpdate(customerResDTO);
         if (saveCustomer == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(saveCustomer);
+        return ResponseEntity.ok(customerService.saveOrUpdate(customerResDTO));
     }
 
     @DeleteMapping("/{id}")
