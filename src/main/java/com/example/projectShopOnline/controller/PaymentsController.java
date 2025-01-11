@@ -30,7 +30,7 @@ public class PaymentsController {
 
     @Operation(summary = "Get Payments", description = "Send a request via this API to get payments information")
     @GetMapping("/{id}")
-    public ResponseEntity<Payments> getPaymentsById(@PathVariable Integer paymentID) {
+    public ResponseEntity<Payments> getPaymentsById(@PathVariable int paymentID) {
         Payments payment = paymentsService.findById(paymentID);
         if (payment == null) {
             return ResponseEntity.notFound().build();
@@ -50,7 +50,7 @@ public class PaymentsController {
 
     @Operation(summary = "Update Payments", description = "Send a request via this API to edit payments information")
     @PutMapping("/{id}")
-    public ResponseEntity<Payments> updatePayments(@PathVariable Integer id, @RequestBody Payments payments) {
+    public ResponseEntity<Payments> updatePayments(@PathVariable int id, @RequestBody Payments payments) {
         payments.setPaymentID(id);
         Payments orderUpdate = paymentsService.update(payments);
         if (orderUpdate == null) {

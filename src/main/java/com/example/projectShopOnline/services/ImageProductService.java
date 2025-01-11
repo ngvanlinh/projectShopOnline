@@ -18,7 +18,7 @@ public class ImageProductService {
         return imageProductRepository.findAll(pageable);
     }
 
-    public ImageProduct findById(Integer id) {
+    public ImageProduct findById(int id) {
         return imageProductRepository.findById(id).orElse(null);
     }
 
@@ -26,7 +26,7 @@ public class ImageProductService {
         return imageProductRepository.save(imageProduct);
     }
 
-    public Boolean delete(Integer id) {
+    public Boolean delete(int id) {
         boolean checkExists = imageProductRepository.existsById(id);
         if (checkExists) {
             imageProductRepository.deleteById(id);

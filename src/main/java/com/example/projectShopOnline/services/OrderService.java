@@ -27,11 +27,11 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order findById(Integer id) {
+    public Order findById(int id) {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public Boolean delete(Integer id) {
+    public Boolean delete(int id) {
         boolean check = orderRepository.existsById(id);
         if (check) {
             orderRepository.deleteById(id);

@@ -26,11 +26,11 @@ public class PaymentsService {
         return paymentsRepository.findAll();
     }
 
-    public Payments findById(Integer id) {
+    public Payments findById(int id) {
         return paymentsRepository.findById(id).orElse(null);
     }
 
-    public Boolean delete(Integer id) {
+    public Boolean delete(int id) {
         boolean checkResult = paymentsRepository.existsById(id);
         if (checkResult) {
             paymentsRepository.deleteById(id);

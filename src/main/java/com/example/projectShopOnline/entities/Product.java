@@ -18,13 +18,13 @@ import java.time.LocalDateTime;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ProductID;
+    private int id;
     private String ProductName;
     private String Brand;
     private String Model;
     private String description;
     private Double price;
-    private Integer quantity;
+    private int quantity;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Category")

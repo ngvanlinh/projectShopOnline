@@ -30,7 +30,7 @@ public class OrderController {
 
     @Operation(summary = "Get Order Details", description = "Send a request via this API to get orders information")
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Integer id) {
+    public ResponseEntity<Order> getOrderById(@PathVariable int id) {
         Order result = orderService.findById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
@@ -46,8 +46,8 @@ public class OrderController {
 
     @Operation(summary = "Update Order Details", description = "Send a request via this API to edit orders information")
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Integer id, @RequestBody Order order) {
-        order.setOrderID(id);
+    public ResponseEntity<Order> updateOrder(@PathVariable int id, @RequestBody Order order) {
+        order.setId(id);
         Order result = orderService.save(order);
         if (result == null) {
             return ResponseEntity.notFound().build();
@@ -57,7 +57,7 @@ public class OrderController {
 
     @Operation(summary = "Delete Order", description = "Send a request via this API to delete orders information")
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOrder(@PathVariable Integer id) {
+    public ResponseEntity deleteOrder(@PathVariable int id) {
         boolean result = orderService.delete(id);
         if (result) {
             return ResponseEntity.ok().build();

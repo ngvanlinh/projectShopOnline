@@ -21,7 +21,7 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
-    public Product findById(Integer id) {
+    public Product findById(int id) {
         return productRepository.findById(id).orElse(null);
     }
 
@@ -33,7 +33,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Boolean delete(Integer id) {
+    public Boolean delete(int id) {
         boolean checkResult = productRepository.existsById(id);
         if (checkResult) {
             productRepository.deleteById(id);

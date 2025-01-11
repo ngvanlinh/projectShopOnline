@@ -18,12 +18,12 @@ public class Payments {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer PaymentID;
+    private int PaymentID;
 
     @Column(name = "PaymentDate")
     private LocalDateTime paymentDate;
 
-    private Integer Amount;
+    private int Amount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PaymentMethod")

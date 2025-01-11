@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
         Product product = productService.findById(id);
         if (product == null) {
             return ResponseEntity.notFound().build();
@@ -46,7 +46,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-        product.setProductID(id);
+        product.setId(id);
         Product editProduct = productService.update(product);
         if (editProduct == null) {
             return ResponseEntity.notFound().build();
@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     @GetMapping("/searchName")
-    public ResponseEntity<Page<Product>> searchProductByName(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<Product>> searchProductByName(@RequestParam String name, @RequestParam Integer page, @RequestParam Integer size) {
         Page<Product> products = productService.searchByName(name, page, size);
         if (products.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -73,7 +73,7 @@ public class ProductController {
     }
 
     @GetMapping("/searchCategory")
-    public ResponseEntity<Page<Product>> searchProductByCatId(@RequestParam Category category, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<Product>> searchProductByCatId(@RequestParam Category category, @RequestParam Integer page, @RequestParam Integer size) {
         Page<Product> products = productService.searchByCategory(category, page, size);
         if (products.isEmpty()) {
             return ResponseEntity.noContent().build();

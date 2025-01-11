@@ -14,8 +14,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer OrderDetailID;
-    private Integer quantity;
+    private int id;
+    private int quantity;
     private Double price;
     @ManyToOne
     @JoinColumn(name = "ProductID")
