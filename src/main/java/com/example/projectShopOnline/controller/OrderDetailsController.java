@@ -30,7 +30,7 @@ public class OrderDetailsController {
 
     @Operation(summary = "Get Order Details", description = "Send a request via this API to get order details information")
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetails> getOrderDetailsById(@PathVariable Integer id) {
+    public ResponseEntity<OrderDetails> getOrderDetailsById(@PathVariable int id) {
         OrderDetails orderDetails = orderDetailsService.findById(id);
         if (orderDetails == null) {
             return ResponseEntity.notFound().build();
@@ -50,8 +50,8 @@ public class OrderDetailsController {
 
     @Operation(summary = "Update OrderDetails Details", description = "Send a request via this API to edit order details information")
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDetails> updateOrderDetails(@PathVariable Integer id, @RequestBody OrderDetails orderDetails) {
-        orderDetails.setOrderDetailID(id);
+    public ResponseEntity<OrderDetails> updateOrderDetails(@PathVariable int id, @RequestBody OrderDetails orderDetails) {
+        orderDetails.setId(id);
         OrderDetails orderUpdate = orderDetailsService.update(orderDetails);
         if (orderUpdate == null) {
             return ResponseEntity.notFound().build();
@@ -61,7 +61,7 @@ public class OrderDetailsController {
 
     @Operation(summary = "Delete Order Details", description = "Send a request via this API to delete order details information")
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOrderDetails(@PathVariable Integer id) {
+    public ResponseEntity deleteOrderDetails(@PathVariable int id) {
         boolean result = orderDetailsService.delete(id);
         if (result) {
             return ResponseEntity.ok().build();

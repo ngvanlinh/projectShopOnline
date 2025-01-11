@@ -26,7 +26,7 @@ public class ImageProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ImageProduct> getById(@PathVariable Integer id) {
+    public ResponseEntity<ImageProduct> getById(@PathVariable int id) {
         ImageProduct imageProduct = imageProductService.findById(id);
         if (imageProduct == null) {
             return ResponseEntity.notFound().build();
@@ -44,7 +44,7 @@ public class ImageProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ImageProduct> update(@PathVariable Integer id, @RequestBody ImageProduct imageProduct) {
+    public ResponseEntity<ImageProduct> update(@PathVariable int id, @RequestBody ImageProduct imageProduct) {
         imageProduct.setId(id);
         ImageProduct update = imageProductService.saveOrUpdate(imageProduct);
         if (update == null) {
@@ -54,7 +54,7 @@ public class ImageProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
+    public ResponseEntity delete(@PathVariable int id) {
         boolean delete = imageProductService.delete(id);
         if (delete) {
             return ResponseEntity.ok().build();

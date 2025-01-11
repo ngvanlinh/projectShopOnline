@@ -19,7 +19,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer findById(Integer id) {
+    public Customer findById(int id) {
         return customerRepository.findById(id).orElse(null);
     }
 
@@ -27,7 +27,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Boolean delete(Integer id) {
+    public Boolean delete(int id) {
         boolean checkExists = customerRepository.existsById(id);
         if (checkExists) {
             customerRepository.deleteById(id);
