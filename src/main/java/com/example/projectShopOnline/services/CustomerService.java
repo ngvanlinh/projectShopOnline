@@ -29,8 +29,8 @@ public class CustomerService {
     }
 
     public CustomerResDTO saveOrUpdate(CustomerResDTO customerResDTO) {
-        Customer product = CustomerMapper.INSTANCE.toEntity(customerResDTO);
-        Customer saveCustomer = customerRepository.save(product);
+        Customer customer = CustomerMapper.INSTANCE.toEntity(customerResDTO);
+        Customer saveCustomer = customerRepository.save(customer);
         return CustomerMapper.INSTANCE.toDTO(saveCustomer);
     }
 

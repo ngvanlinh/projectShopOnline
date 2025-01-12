@@ -1,6 +1,7 @@
 package com.example.projectShopOnline.controller;
 
 import com.example.projectShopOnline.entities.Order;
+import com.example.projectShopOnline.entities.dto.respository.OrderResDTO;
 import com.example.projectShopOnline.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,8 @@ public class OrderController {
 
     @Operation(summary = "List All Orders", description = "Send request via this API to get all orders list")
     @GetMapping("/all")
-    public ResponseEntity<List<Order>> getOrders() {
-        List result = orderService.findAll();
-        if (result.size() == 0) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(result);
+    public ResponseEntity<List<OrderResDTO>> getOrders() {
+        return ResponseEntity.ok(orderService.getaAllOrder());
     }
 
     @Operation(summary = "Get Order Details", description = "Send a request via this API to get orders information")

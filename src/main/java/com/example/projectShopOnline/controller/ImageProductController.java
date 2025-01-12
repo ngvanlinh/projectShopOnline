@@ -1,11 +1,12 @@
 package com.example.projectShopOnline.controller;
 
 import com.example.projectShopOnline.entities.ImageProduct;
+import com.example.projectShopOnline.entities.dto.respository.ImageProductResDTO;
 import com.example.projectShopOnline.services.ImageProductService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/image")
@@ -17,12 +18,8 @@ public class ImageProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<ImageProduct>> getAllImageProducts(Pageable pageable) {
-        Page<ImageProduct> imageProducts = imageProductService.findAll(pageable);
-        if (imageProducts.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(imageProducts);
+    public ResponseEntity<List<ImageProductResDTO>> getAllImageProducts( ) {
+        return ResponseEntity.ok(imageProductService.getAllImageProducts());
     }
 
     @GetMapping("/{id}")
@@ -35,8 +32,8 @@ public class ImageProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ImageProduct> create(@RequestBody ImageProduct imageProduct) {
-        ImageProduct save = imageProductService.saveOrUpdate(imageProduct);
+    public ResponseEntity<ImageProductResDTO> create(@RequestBody ImageProductResDTO imageProductResDTO) {
+        ImageProductResDTO save = imageProductService.saveImageProducts(imageProductResDTO);
         if (save == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -44,9 +41,9 @@ public class ImageProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ImageProduct> update(@PathVariable int id, @RequestBody ImageProduct imageProduct) {
-        imageProduct.setId(id);
-        ImageProduct update = imageProductService.saveOrUpdate(imageProduct);
+    public ResponseEntity<ImageProductResDTO> update(@PathVariable int id, @RequestBody ImageProductResDTO imageProductResDTO) {
+        imageProductResDTO.setId(id);
+        ImageProductResDTO update = imageProductService.saveImageProducts(imageProductResDTO);
         if (update == null) {
             return ResponseEntity.badRequest().build();
         }

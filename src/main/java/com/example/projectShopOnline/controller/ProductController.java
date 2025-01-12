@@ -1,12 +1,15 @@
 package com.example.projectShopOnline.controller;
 
 import com.example.projectShopOnline.entities.Product;
+import com.example.projectShopOnline.entities.dto.respository.ProductResDTO;
 import com.example.projectShopOnline.entities.enums.Category;
 import com.example.projectShopOnline.services.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/product")
@@ -18,12 +21,8 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<Product>> getProducts(Pageable pageable) {
-        Page<Product> products = productService.findAll(pageable);
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(products);
+    public ResponseEntity<List<ProductResDTO>> getProducts() {
+        return ResponseEntity.ok(productService.getAllProduct());
     }
 
     @GetMapping("/{id}")
@@ -36,8 +35,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product saveProduct = productService.save(product);
+    public ResponseEntity<ProductResDTO> addProduct(@RequestBody ProductResDTO productResDTO) {
+        ProductResDTO saveProduct = productService.saveProduct(productResDTO);
         if (saveProduct == null) {
             return ResponseEntity.noContent().build();
         }

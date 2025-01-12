@@ -1,13 +1,18 @@
 package com.example.projectShopOnline.services;
 
 import com.example.projectShopOnline.entities.Product;
+import com.example.projectShopOnline.entities.dto.respository.ProductResDTO;
 import com.example.projectShopOnline.entities.enums.Category;
+import com.example.projectShopOnline.mapper.ProductMapper;
 import com.example.projectShopOnline.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -17,16 +22,21 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public List<ProductResDTO> getAllProduct() {
+        return productRepository.findAll()
+                .stream()
+                .map(ProductMapper.INSTANCE::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Product findById(int id) {
         return productRepository.findById(id).orElse(null);
     }
 
-    public Product save(Product product) {
-        return productRepository.save(product);
+    public ProductResDTO saveProduct(ProductResDTO productResDTO) {
+        Product product = ProductMapper.INSTANCE.toENtity(productResDTO);
+        Product saveProducts = productRepository.save(product);
+        return ProductMapper.INSTANCE.toDTO(saveProducts);
     }
 
     public Product update(Product product) {
