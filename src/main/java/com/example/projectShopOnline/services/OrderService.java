@@ -18,14 +18,17 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public OrderResDTO save(OrderResDTO orderResDTO) {
+    public OrderResDTO saveOrder(OrderResDTO orderResDTO) {
         Order order = OrderMapper.INSTANCE.toEntity(orderResDTO);
         Order saveOrder = orderRepository.save(order);
         return OrderMapper.INSTANCE.toDTO(saveOrder);
     }
 
-    public Order update(Order order) {
-        return orderRepository.save(order);
+    public OrderResDTO update(int id,OrderResDTO orderResDTO) {
+        Order order = orderRepository.findById(id).orElse(null);
+        order.setTotalAmount(orderResDTO.getTotalAmount());
+        order = orderRepository.save(order);
+        return OrderMapper.INSTANCE.toDTO(order);
     }
 
     public List<OrderResDTO> getaAllOrder() {
@@ -35,8 +38,9 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public Order findById(int id) {
-        return orderRepository.findById(id).orElse(null);
+    public OrderResDTO findById(int id) {
+        Order order = orderRepository.findById(id).orElse(null);
+        return OrderMapper.INSTANCE.toDTO(order);
     }
 
     public Boolean delete(int id) {

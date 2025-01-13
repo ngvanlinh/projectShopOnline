@@ -18,14 +18,18 @@ public class OrderDetailsService {
         this.orderDetailsRepository = orderDetailsRepository;
     }
 
-    public OrderDetailsResDTO save(OrderDetailsResDTO orderDetailsResDTO) {
+    public OrderDetailsResDTO saveOderDetails(OrderDetailsResDTO orderDetailsResDTO) {
         OrderDetails orderDetails = OrderDetailsMapper.INSTANCE.toEntity(orderDetailsResDTO);
         OrderDetails saveOrderDetails = orderDetailsRepository.save(orderDetails);
         return OrderDetailsMapper.INSTANCE.toDTO(saveOrderDetails);
     }
 
-    public OrderDetails update(OrderDetails orderDetails) {
-        return orderDetailsRepository.save(orderDetails);
+    public OrderDetailsResDTO updateOrderDetails(int id,OrderDetailsResDTO orderDetailsResDTO) {
+        OrderDetails orderDetails = orderDetailsRepository.findById(id).orElse(null);
+        orderDetails.setQuantity(orderDetailsResDTO.getQuantity());
+        orderDetails.setPrice(orderDetailsResDTO.getPrice());
+        orderDetails = orderDetailsRepository.save(orderDetails);
+        return OrderDetailsMapper.INSTANCE.toDTO(orderDetails);
     }
 
     public List<OrderDetailsResDTO> getAllOrderDetails() {
@@ -34,8 +38,9 @@ public class OrderDetailsService {
                 .collect(Collectors.toList());
     }
 
-    public OrderDetails findById(int id) {
-        return orderDetailsRepository.findById(id).orElse(null);
+    public OrderDetailsResDTO findById(int id) {
+        OrderDetails orderDetails = orderDetailsRepository.findById(id).orElse(null);
+        return OrderDetailsMapper.INSTANCE.toDTO(orderDetails);
     }
 
     public Boolean delete(int id) {

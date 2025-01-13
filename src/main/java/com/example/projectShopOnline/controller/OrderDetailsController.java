@@ -28,18 +28,18 @@ public class OrderDetailsController {
 
     @Operation(summary = "Get Order Details", description = "Send a request via this API to get order details information")
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetails> getOrderDetailsById(@PathVariable int id) {
-        OrderDetails orderDetails = orderDetailsService.findById(id);
-        if (orderDetails == null) {
+    public ResponseEntity<OrderDetailsResDTO> getOrderDetailsById(@PathVariable int id) {
+        OrderDetailsResDTO orderDetailsResDTO = orderDetailsService.findById(id);
+        if (orderDetailsResDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(orderDetails);
+        return ResponseEntity.ok(orderDetailsResDTO);
     }
 
     @Operation(summary = "Add New Order Details", description = "Send requests via this API to add order details information")
     @PostMapping
     public ResponseEntity<OrderDetailsResDTO> saveOrderDetails(OrderDetailsResDTO orderDetailsResDTO) {
-        OrderDetailsResDTO orderD = orderDetailsService.save(orderDetailsResDTO);
+        OrderDetailsResDTO orderD = orderDetailsService.saveOderDetails(orderDetailsResDTO);
         if (orderD == null) {
             return ResponseEntity.noContent().build();
         }
@@ -48,9 +48,9 @@ public class OrderDetailsController {
 
     @Operation(summary = "Update OrderDetails Details", description = "Send a request via this API to edit order details information")
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDetails> updateOrderDetails(@PathVariable int id, @RequestBody OrderDetails orderDetails) {
-        orderDetails.setId(id);
-        OrderDetails orderUpdate = orderDetailsService.update(orderDetails);
+    public ResponseEntity<OrderDetailsResDTO> updateOrderDetails(@PathVariable int id, @RequestBody OrderDetailsResDTO orderDetailsResDTO) {
+        orderDetailsResDTO.setId(id);
+        OrderDetailsResDTO orderUpdate = orderDetailsService.updateOrderDetails(id,orderDetailsResDTO);
         if (orderUpdate == null) {
             return ResponseEntity.notFound().build();
         }

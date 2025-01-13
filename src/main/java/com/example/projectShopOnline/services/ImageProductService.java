@@ -24,8 +24,9 @@ public class ImageProductService {
                 .collect(Collectors.toList());
     }
 
-    public ImageProduct findById(int id) {
-        return imageProductRepository.findById(id).orElse(null);
+    public ImageProductResDTO findById(int id) {
+        ImageProduct imageProduct = imageProductRepository.findById(id).orElse(null);
+        return ImageProductMapper.INSTANCE.toDTO(imageProduct);
     }
 
     public ImageProductResDTO saveImageProducts( ImageProductResDTO imageProductResDTO) {
@@ -33,7 +34,12 @@ public class ImageProductService {
         ImageProduct save = imageProductRepository.save(imageProduct);
         return ImageProductMapper.INSTANCE.toDTO(save);
     }
-
+    public ImageProductResDTO updateImage(int id,ImageProductResDTO imageProductResDTO){
+        ImageProduct imageProduct = imageProductRepository.findById(id).orElse(null);
+        imageProduct.setImage(imageProductResDTO.getImage());
+        imageProduct = imageProductRepository.save(imageProduct);
+        return ImageProductMapper.INSTANCE.toDTO(imageProduct);
+    }
     public Boolean delete(int id) {
         boolean checkExists = imageProductRepository.existsById(id);
         if (checkExists) {

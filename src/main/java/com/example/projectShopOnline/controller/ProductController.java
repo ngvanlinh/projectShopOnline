@@ -44,9 +44,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-        product.setId(id);
-        Product editProduct = productService.update(product);
+    public ResponseEntity<ProductResDTO> updateProduct(@PathVariable int id, @RequestBody ProductResDTO productResDTO) {
+        productResDTO.setId(id);
+        ProductResDTO editProduct = productService.update(id,productResDTO);
         if (editProduct == null) {
             return ResponseEntity.notFound().build();
         }
@@ -54,7 +54,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteProduct(@PathVariable Integer id) {
+    public ResponseEntity deleteProduct(@PathVariable int id) {
         boolean checkExists = productService.delete(id);
         if (checkExists) {
             return ResponseEntity.ok().build();
@@ -62,21 +62,4 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/searchName")
-    public ResponseEntity<Page<Product>> searchProductByName(@RequestParam String name, @RequestParam Integer page, @RequestParam Integer size) {
-        Page<Product> products = productService.searchByName(name, page, size);
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(products);
-    }
-
-    @GetMapping("/searchCategory")
-    public ResponseEntity<Page<Product>> searchProductByCatId(@RequestParam Category category, @RequestParam Integer page, @RequestParam Integer size) {
-        Page<Product> products = productService.searchByCategory(category, page, size);
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(products);
-    }
 }

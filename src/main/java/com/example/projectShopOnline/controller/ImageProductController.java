@@ -23,12 +23,12 @@ public class ImageProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ImageProduct> getById(@PathVariable int id) {
-        ImageProduct imageProduct = imageProductService.findById(id);
-        if (imageProduct == null) {
+    public ResponseEntity<ImageProductResDTO> getById(@PathVariable int id) {
+        ImageProductResDTO imageProductResDTO = imageProductService.findById(id);
+        if (imageProductResDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(imageProduct);
+        return ResponseEntity.ok(imageProductResDTO);
     }
 
     @PostMapping

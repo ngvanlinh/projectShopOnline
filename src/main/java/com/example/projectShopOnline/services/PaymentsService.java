@@ -17,14 +17,18 @@ public class PaymentsService {
         this.paymentsRepository = paymentsRepository;
     }
 
-    public PaymentsResDTO save(PaymentsResDTO paymentsResDTO) {
+    public PaymentsResDTO savePayments(PaymentsResDTO paymentsResDTO) {
         Payments payments = PaymentsMapper.INSTANCE.toEntity(paymentsResDTO);
         Payments savePayments = paymentsRepository.save(payments);
         return PaymentsMapper.INSTANCE.toDTO(savePayments);
     }
 
-    public Payments update(Payments payments) {
-        return paymentsRepository.save(payments);
+    public PaymentsResDTO updatePayment(int id,PaymentsResDTO paymentsResDTO) {
+        Payments payments = paymentsRepository.findById(id).orElse(null);
+        payments.setAmount(paymentsResDTO.getAmount());
+        payments.setPaymentMethod(paymentsResDTO.getPaymentMethod());
+        payments = paymentsRepository.save(payments);
+        return PaymentsMapper.INSTANCE.toDTO(payments);
     }
 
     public List<PaymentsResDTO> getAllPayments() {
@@ -34,8 +38,9 @@ public class PaymentsService {
                 .collect(Collectors.toList());
     }
 
-    public Payments findById(int id) {
-        return paymentsRepository.findById(id).orElse(null);
+    public PaymentsResDTO findById(int id) {
+        Payments payments =paymentsRepository.findById(id).orElse(null);
+        return PaymentsMapper.INSTANCE.toDTO(payments);
     }
 
     public Boolean delete(int id) {

@@ -38,21 +38,21 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<CustomerResDTO> createCustomer(@RequestBody CustomerResDTO customerResDTO) {
-        CustomerResDTO saveCustomer = customerService.saveOrUpdate(customerResDTO);
+        CustomerResDTO saveCustomer = customerService.saveCustomer(customerResDTO);
         if (saveCustomer == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(customerService.saveOrUpdate(customerResDTO));
+        return ResponseEntity.ok(customerService.saveCustomer(customerResDTO));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResDTO> updateCustomer(@PathVariable int id, @RequestBody CustomerResDTO customerResDTO) {
         customerResDTO.setId(id);
-        CustomerResDTO saveCustomer = customerService.saveOrUpdate(customerResDTO);
-        if (saveCustomer == null) {
+        CustomerResDTO updateCustomer = customerService.upadateCustomer(id,customerResDTO);
+        if (updateCustomer == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(customerService.saveOrUpdate(customerResDTO));
+        return ResponseEntity.ok(updateCustomer);
     }
 
     @DeleteMapping("/{id}")

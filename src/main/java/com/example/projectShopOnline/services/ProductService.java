@@ -39,8 +39,16 @@ public class ProductService {
         return ProductMapper.INSTANCE.toDTO(saveProducts);
     }
 
-    public Product update(Product product) {
-        return productRepository.save(product);
+    public ProductResDTO update(int  id,ProductResDTO productResDTO) {
+        Product product = productRepository.findById(id).orElse(null);
+        product.setName(productResDTO.getName());
+        product.setBrand(product.getBrand());
+        product.setModel(product.getModel());
+        product.setDescription(product.getDescription());
+        product.setPrice(product.getPrice());
+        product.setQuantity(product.getQuantity());
+        product = productRepository.save(product);
+        return ProductMapper.INSTANCE.toDTO(product);
     }
 
     public Boolean delete(int id) {
@@ -52,13 +60,6 @@ public class ProductService {
         return false;
     }
 
-    public Page<Product> searchByName(String name, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
-        return productRepository.searchByName(name, pageable);
-    }
 
-    public Page<Product> searchByCategory(Category category, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return productRepository.searchByCategory(category, pageable);
-    }
+
 }

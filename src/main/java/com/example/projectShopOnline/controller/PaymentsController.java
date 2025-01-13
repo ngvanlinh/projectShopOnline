@@ -27,26 +27,26 @@ public class PaymentsController {
 
     @Operation(summary = "Get Payments", description = "Send a request via this API to get payments information")
     @GetMapping("/{id}")
-    public ResponseEntity<Payments> getPaymentsById(@PathVariable int paymentID) {
-        Payments payment = paymentsService.findById(paymentID);
-        if (payment == null) {
+    public ResponseEntity<PaymentsResDTO> getPaymentsById(@PathVariable int paymentID) {
+        PaymentsResDTO paymentsResDTO = paymentsService.findById(paymentID);
+        if (paymentsResDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(payment);
+        return ResponseEntity.ok(paymentsResDTO);
     }
 
     @Operation(summary = "Add New Payments", description = "Send requests via this API to add Payments information")
     @PostMapping
     public ResponseEntity<PaymentsResDTO> savePayments(PaymentsResDTO paymentsResDTO) {
-        PaymentsResDTO save = paymentsService.save(paymentsResDTO);
+        PaymentsResDTO save = paymentsService.savePayments(paymentsResDTO);
         return ResponseEntity.ok(save);
     }
 
     @Operation(summary = "Update Payments", description = "Send a request via this API to edit payments information")
     @PutMapping("/{id}")
-    public ResponseEntity<Payments> updatePayments(@PathVariable int id, @RequestBody Payments payments) {
-        payments.setId(id);
-        Payments orderUpdate = paymentsService.update(payments);
+    public ResponseEntity<PaymentsResDTO> updatePayments(@PathVariable int id, @RequestBody PaymentsResDTO paymentsResDTO) {
+        paymentsResDTO.setId(id);
+        PaymentsResDTO orderUpdate = paymentsService.updatePayment(id,paymentsResDTO);
         if (orderUpdate == null) {
             return ResponseEntity.notFound().build();
         }

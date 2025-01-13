@@ -28,10 +28,20 @@ public class CustomerService {
         return customerRepository.findById(id).orElse(null);
     }
 
-    public CustomerResDTO saveOrUpdate(CustomerResDTO customerResDTO) {
+    public CustomerResDTO saveCustomer(CustomerResDTO customerResDTO) {
         Customer customer = CustomerMapper.INSTANCE.toEntity(customerResDTO);
         Customer saveCustomer = customerRepository.save(customer);
         return CustomerMapper.INSTANCE.toDTO(saveCustomer);
+    }
+    public CustomerResDTO upadateCustomer(int id,CustomerResDTO customerResDTO){
+        Customer customer = customerRepository.findById(id).orElse(null);
+        customer.setFullName(customerResDTO.getFullName());
+        customer.setEmail(customerResDTO.getEmail());
+        customer.setAddress(customerResDTO.getAddress());
+        customer.setPhoneNumber(customer.getPhoneNumber());
+        customer = customerRepository.save(customer);
+        return CustomerMapper.INSTANCE.toDTO(customer);
+
     }
 
     public Boolean delete(int id) {

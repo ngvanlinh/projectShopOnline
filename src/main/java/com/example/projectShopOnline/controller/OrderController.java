@@ -27,8 +27,8 @@ public class OrderController {
 
     @Operation(summary = "Get Order Details", description = "Send a request via this API to get orders information")
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable int id) {
-        Order result = orderService.findById(id);
+    public ResponseEntity<OrderResDTO> getOrderById(@PathVariable int id) {
+        OrderResDTO result = orderService.findById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
@@ -37,15 +37,15 @@ public class OrderController {
 
     @Operation(method = "POST", summary = "Add New Order", description = "Send requests via this API to add orders information")
     @PostMapping
-    public Order saveOrder(Order order) {
-        return orderService.save(order);
+    public OrderResDTO saveOrder(OrderResDTO orderResDTO) {
+        return orderService.saveOrder(orderResDTO);
     }
 
     @Operation(summary = "Update Order Details", description = "Send a request via this API to edit orders information")
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable int id, @RequestBody Order order) {
-        order.setId(id);
-        Order result = orderService.save(order);
+    public ResponseEntity<OrderResDTO> updateOrder(@PathVariable int id, @RequestBody OrderResDTO orderResDTO) {
+        orderResDTO.setId(id);
+        OrderResDTO result = orderService.update(id,orderResDTO);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
