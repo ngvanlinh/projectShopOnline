@@ -9,16 +9,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Customer {
+public class User {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String fullName;
+    private String firstname;
+    private String lastname;
     private String email;
-    private String address ;
-
-    @Column(name = "phone_number")
-    private int phoneNumber;
-
+    private String address;
+    private String password;
+    private String confirmPassword;
 }

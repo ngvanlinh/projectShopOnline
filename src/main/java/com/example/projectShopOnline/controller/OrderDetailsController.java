@@ -1,6 +1,7 @@
 package com.example.projectShopOnline.controller;
 
 import com.example.projectShopOnline.entities.OrderDetails;
+import com.example.projectShopOnline.entities.dto.respository.OrderDetailsResDTO;
 import com.example.projectShopOnline.services.OrderDetailsService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -20,28 +21,25 @@ public class OrderDetailsController {
 
     @Operation(summary = "List All Order Details", description = "Send request via this API to get all order details list")
     @GetMapping("/all")
-    public ResponseEntity<List<OrderDetails>> getOrderDetails() {
-        List result = orderDetailsService.findAll();
-        if (result.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(result);
+    public ResponseEntity<List<OrderDetailsResDTO>> getOrderDetails() {
+
+        return ResponseEntity.ok(orderDetailsService.getAllOrderDetails());
     }
 
     @Operation(summary = "Get Order Details", description = "Send a request via this API to get order details information")
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetails> getOrderDetailsById(@PathVariable Integer id) {
-        OrderDetails orderDetails = orderDetailsService.findById(id);
-        if (orderDetails == null) {
+    public ResponseEntity<OrderDetailsResDTO> getOrderDetailsById(@PathVariable int id) {
+        OrderDetailsResDTO orderDetailsResDTO = orderDetailsService.findById(id);
+        if (orderDetailsResDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(orderDetails);
+        return ResponseEntity.ok(orderDetailsResDTO);
     }
 
     @Operation(summary = "Add New Order Details", description = "Send requests via this API to add order details information")
     @PostMapping
-    public ResponseEntity<OrderDetails> saveOrderDetails(OrderDetails orderDetails) {
-        OrderDetails orderD = orderDetailsService.save(orderDetails);
+    public ResponseEntity<OrderDetailsResDTO> saveOrderDetails(OrderDetailsResDTO orderDetailsResDTO) {
+        OrderDetailsResDTO orderD = orderDetailsService.saveOderDetails(orderDetailsResDTO);
         if (orderD == null) {
             return ResponseEntity.noContent().build();
         }
@@ -50,9 +48,9 @@ public class OrderDetailsController {
 
     @Operation(summary = "Update OrderDetails Details", description = "Send a request via this API to edit order details information")
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDetails> updateOrderDetails(@PathVariable Integer id, @RequestBody OrderDetails orderDetails) {
-        orderDetails.setOrderDetailID(id);
-        OrderDetails orderUpdate = orderDetailsService.update(orderDetails);
+    public ResponseEntity<OrderDetailsResDTO> updateOrderDetails(@PathVariable int id, @RequestBody OrderDetailsResDTO orderDetailsResDTO) {
+        orderDetailsResDTO.setId(id);
+        OrderDetailsResDTO orderUpdate = orderDetailsService.updateOrderDetails(id,orderDetailsResDTO);
         if (orderUpdate == null) {
             return ResponseEntity.notFound().build();
         }
@@ -61,7 +59,7 @@ public class OrderDetailsController {
 
     @Operation(summary = "Delete Order Details", description = "Send a request via this API to delete order details information")
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOrderDetails(@PathVariable Integer id) {
+    public ResponseEntity deleteOrderDetails(@PathVariable int id) {
         boolean result = orderDetailsService.delete(id);
         if (result) {
             return ResponseEntity.ok().build();

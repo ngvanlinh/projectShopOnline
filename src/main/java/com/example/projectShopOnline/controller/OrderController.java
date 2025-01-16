@@ -1,6 +1,7 @@
 package com.example.projectShopOnline.controller;
 
 import com.example.projectShopOnline.entities.Order;
+import com.example.projectShopOnline.entities.dto.respository.OrderResDTO;
 import com.example.projectShopOnline.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +21,14 @@ public class OrderController {
 
     @Operation(summary = "List All Orders", description = "Send request via this API to get all orders list")
     @GetMapping("/all")
-    public ResponseEntity<List<Order>> getOrders() {
-        List result = orderService.findAll();
-        if (result.size() == 0) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(result);
+    public ResponseEntity<List<OrderResDTO>> getOrders() {
+        return ResponseEntity.ok(orderService.getaAllOrder());
     }
 
     @Operation(summary = "Get Order Details", description = "Send a request via this API to get orders information")
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Integer id) {
-        Order result = orderService.findById(id);
+    public ResponseEntity<OrderResDTO> getOrderById(@PathVariable int id) {
+        OrderResDTO result = orderService.findById(id);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
@@ -40,15 +37,15 @@ public class OrderController {
 
     @Operation(method = "POST", summary = "Add New Order", description = "Send requests via this API to add orders information")
     @PostMapping
-    public Order saveOrder(Order order) {
-        return orderService.save(order);
+    public OrderResDTO saveOrder(OrderResDTO orderResDTO) {
+        return orderService.saveOrder(orderResDTO);
     }
 
     @Operation(summary = "Update Order Details", description = "Send a request via this API to edit orders information")
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Integer id, @RequestBody Order order) {
-        order.setOrderID(id);
-        Order result = orderService.save(order);
+    public ResponseEntity<OrderResDTO> updateOrder(@PathVariable int id, @RequestBody OrderResDTO orderResDTO) {
+        orderResDTO.setId(id);
+        OrderResDTO result = orderService.update(id,orderResDTO);
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
@@ -57,7 +54,7 @@ public class OrderController {
 
     @Operation(summary = "Delete Order", description = "Send a request via this API to delete orders information")
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOrder(@PathVariable Integer id) {
+    public ResponseEntity deleteOrder(@PathVariable int id) {
         boolean result = orderService.delete(id);
         if (result) {
             return ResponseEntity.ok().build();

@@ -1,12 +1,15 @@
 package com.example.projectShopOnline.controller;
 
 import com.example.projectShopOnline.entities.Product;
+import com.example.projectShopOnline.entities.dto.respository.ProductResDTO;
 import com.example.projectShopOnline.entities.enums.Category;
 import com.example.projectShopOnline.services.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/product")
@@ -18,16 +21,12 @@ public class ProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<Product>> getProducts(Pageable pageable) {
-        Page<Product> products = productService.findAll(pageable);
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(products);
+    public ResponseEntity<List<ProductResDTO>> getProducts() {
+        return ResponseEntity.ok(productService.getAllProduct());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
         Product product = productService.findById(id);
         if (product == null) {
             return ResponseEntity.notFound().build();
@@ -36,8 +35,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product saveProduct = productService.save(product);
+    public ResponseEntity<ProductResDTO> addProduct(@RequestBody ProductResDTO productResDTO) {
+        ProductResDTO saveProduct = productService.saveProduct(productResDTO);
         if (saveProduct == null) {
             return ResponseEntity.noContent().build();
         }
@@ -45,9 +44,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-        product.setProductID(id);
-        Product editProduct = productService.update(product);
+    public ResponseEntity<ProductResDTO> updateProduct(@PathVariable int id, @RequestBody ProductResDTO productResDTO) {
+        productResDTO.setId(id);
+        ProductResDTO editProduct = productService.update(id,productResDTO);
         if (editProduct == null) {
             return ResponseEntity.notFound().build();
         }
@@ -55,7 +54,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteProduct(@PathVariable Integer id) {
+    public ResponseEntity deleteProduct(@PathVariable int id) {
         boolean checkExists = productService.delete(id);
         if (checkExists) {
             return ResponseEntity.ok().build();
@@ -63,21 +62,4 @@ public class ProductController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/searchName")
-    public ResponseEntity<Page<Product>> searchProductByName(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
-        Page<Product> products = productService.searchByName(name, page, size);
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(products);
-    }
-
-    @GetMapping("/searchCategory")
-    public ResponseEntity<Page<Product>> searchProductByCatId(@RequestParam Category category, @RequestParam int page, @RequestParam int size) {
-        Page<Product> products = productService.searchByCategory(category, page, size);
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(products);
-    }
 }

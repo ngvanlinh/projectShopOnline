@@ -2,6 +2,7 @@ package com.example.projectShopOnline.controller;
 
 
 import com.example.projectShopOnline.entities.Customer;
+import com.example.projectShopOnline.entities.dto.respository.CustomerResDTO;
 import com.example.projectShopOnline.services.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class CustomerController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customers = customerService.findAll();
+    public ResponseEntity<List<CustomerResDTO>> getAllCustomers() {
+        List<CustomerResDTO> customers = customerService.getAllCustomer();
         if (customers.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -27,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Integer id) {
+    public ResponseEntity<Customer> getCustomerById(@PathVariable int id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {
             return ResponseEntity.notFound().build();
@@ -36,26 +37,26 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        Customer saveCustomer = customerService.saveOrUpdate(customer);
+    public ResponseEntity<CustomerResDTO> createCustomer(@RequestBody CustomerResDTO customerResDTO) {
+        CustomerResDTO saveCustomer = customerService.saveCustomer(customerResDTO);
         if (saveCustomer == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(saveCustomer);
+        return ResponseEntity.ok(customerService.saveCustomer(customerResDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer id, @RequestBody Customer customer) {
-        customer.setCustomerID(id);
-        Customer saveCustomer = customerService.saveOrUpdate(customer);
-        if (saveCustomer == null) {
+    public ResponseEntity<CustomerResDTO> updateCustomer(@PathVariable int id, @RequestBody CustomerResDTO customerResDTO) {
+        customerResDTO.setId(id);
+        CustomerResDTO updateCustomer = customerService.upadateCustomer(id,customerResDTO);
+        if (updateCustomer == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(saveCustomer);
+        return ResponseEntity.ok(updateCustomer);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCustomer(@PathVariable Integer id) {
+    public ResponseEntity deleteCustomer(@PathVariable int id) {
         boolean checkResult = customerService.delete(id);
         if (checkResult) {
             return ResponseEntity.ok().build();
